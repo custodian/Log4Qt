@@ -37,6 +37,7 @@
 #include <QtCore/QDebug>
 #include <QtCore/QTextStream>
 #include <QtCore/QTextCodec>
+#include <QStandardPaths>
 #include "layout.h"
 #include "loggingevent.h"
 
@@ -253,6 +254,20 @@ namespace Log4Qt
                         if (ExpandEnvironmentStringsW((wchar_t*)mFileName.utf16(), buffer, MAX_PATH)) {
                             mFileName = QString::fromWCharArray(buffer);
                         }
+#endif
+#if defined(__unix__)
+            mFileName.replace("$XDG_CACHE_HOME",
+                             QStandardPaths::standardLocations(QStandardPaths::CacheLocation).at(0));
+            // make sure logging dir exists
+            QFileInfo fi(mFileName);
+            if (!QDir().mkpath(fi.path()))
+            {
+                LogError e = LOG4QT_QCLASS_ERROR(QT_TR_NOOP("Unable to create directory '%1' for appender '%2'"),
+                                                 APPENDER_OPENING_FILE_ERROR);
+                e << fi.path() << name();
+                logger()->error(e);
+                return;
+            }
 #endif
 
 			mpFile = new QFile(mFileName);
