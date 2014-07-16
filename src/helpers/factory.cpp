@@ -38,6 +38,7 @@
 #include "colorconsoleappender.h"
 #include "dailyrollingfileappender.h"
 #include "fileappender.h"
+#include "systemlogappender.h"
 #include "helpers/logerror.h"
 #include "helpers/initialisationhelper.h"
 #include "helpers/optionconverter.h"
@@ -110,6 +111,9 @@ namespace Log4Qt
 
 	Appender *create_signal_appender()
 	{	return new SignalAppender;	}
+
+    Appender *create_system_log_appender()
+    {	return new SystemLogAppender;	}
 
 	Appender *create_color_console_appender()
 	{   return new ColorConsoleAppender;}
@@ -368,11 +372,12 @@ namespace Log4Qt
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::NullAppender"), create_null_appender);
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.RollingFileAppender"), create_rolling_file_appender);
 			mAppenderRegistry.insert(QLatin1String("Log4Qt::RollingFileAppender"), create_rolling_file_appender);
-
-			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SignalAppender"), create_signal_appender);
-			mAppenderRegistry.insert(QLatin1String("Log4Qt::SignalAppender"), create_signal_appender);
+            mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SystemLogAppender"), create_system_log_appender);
+            mAppenderRegistry.insert(QLatin1String("Log4Qt::SystemLogAppender"), create_system_log_appender);
+            mAppenderRegistry.insert(QLatin1String("org.apache.log4j.SignalAppender"), create_signal_appender);
+            mAppenderRegistry.insert(QLatin1String("Log4Qt::SignalAppender"), create_signal_appender);
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.ColorConsoleAppender"), create_color_console_appender);
-						mAppenderRegistry.insert(QLatin1String("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
+            mAppenderRegistry.insert(QLatin1String("Log4Qt::ColorConsoleAppender"), create_color_console_appender);
 
 #if defined(QT_SQL_LIB)
 			mAppenderRegistry.insert(QLatin1String("org.apache.log4j.DatabaseAppender"), create_database_appender);
