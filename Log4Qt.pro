@@ -3,6 +3,7 @@ include(src/Log4Qt.pri)
 
 TEMPLATE = lib
 QT += core xml network
+QT -= gui
 TARGET = log4qt
 
 LOG4QT_VERSION_MAJOR = 1
