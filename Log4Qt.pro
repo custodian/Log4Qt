@@ -19,4 +19,8 @@ VERSION = 1.1.0
 DEPENDPATH += src src/helpers src/spisrc/ varia
 INCLUDEPATH += src src/helpers src/spi src/varia
 
+INSTALLS += target deploy
 
+target.path = /usr/lib
+deploy.files = deploy/include/*
+deploy.path = /usr/include/Log4Qt
